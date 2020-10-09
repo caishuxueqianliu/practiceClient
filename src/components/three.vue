@@ -1,74 +1,5 @@
-<!DOCTYPE html>
-<html lang='en' onselectstart='return false'>
-<head>
-<meta charset='utf-8' />
-<style>
-li,
-ul,
-div,
-html,
-body{
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body{ height: 100% }
-
-li{ list-style-type: none }
-
-.wrap{
-  height: 100%;
-  overflow: hidden;
-  perspective: 800px;
-}
-
-#box{
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  position: relative;
-  transform-style: preserve-3d;
-  transform: translateZ(-1600px);
-  z-index: 1;
-}
-#box li{
-  top: -80px;
-  left: -60px;
-  width: 120px;
-  height: 160px;
-  position: absolute;
-  text-align: center;
-  line-height: 160px;
-  background-color: rgba(5,100,80,0.2);
-  border: 1px solid rgba(125,255,255,0.25);
-  box-shadow: 0 0 15px rgba(0,255,255,0.5);
-  cursor: pointer;
-}
-#box li span{
-  font-size: 28px;
-  font-weight: blod;
-  text-shadow: 2px 2px 5px black;
-  color: #efebef;
-}
-
-.mask{
-  width: 100%;
-  height: 100%;
-  background: url('bg()mask.jpg') no-repeat center;
-  background-size: cover;
-  filter: blur(5px);
-}
-.mask > .bg-mask{
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.25;
-}
-</style>
-</head>
-<body>
+<template>
+  <div >
 <div class="wrap">
   <ul id="box"></ul>
 
@@ -76,11 +7,15 @@ li{ list-style-type: none }
     <div class="bg-mask"></div>
   </div>
 </div>
-<script src='jquery-2.2.4.js'></script>
+    
+  </div>
+</template>
+
+
 <script>
-three()
+ import $ from 'jquery'
 // 开启一个独立的空间避免全局变量污染
-function three(){
+(function(){
   let
 
   idx,
@@ -135,7 +70,7 @@ function three(){
   liElemDepDefault = -1000,
 
   // 避免覆盖默认景深值
-  depDefault = liElemDepDefault-600;
+  depDefault = liElemDepDefault-600,
 
   // 避免第一次拖动发生错位
   liElemDepZ = liElemDepDefault-600,
@@ -152,15 +87,15 @@ function three(){
   liElemFristSiteZ = parseInt('-'+liElemDepMaxDist/2)*liElemOffsetZ,
 
   // 文本内容
-  data = ['Grid','Helix','Chaotic','Sphere','Three','Geome','Curve','Random'];
+  data = ['Grid','Helix','Chaotic','Sphere','Three','Geome','Curve','Random'],
 
   // 指定一个区间，获取一个随机数
   randomFrom = (lowerValue,upperValue) =>{
     return Math.floor(Math.random()*(upperValue-lowerValue+1)+lowerValue);
-  }
+  },
 
   // 方阵
-  gridLayout = () =>{
+  gridLayout = _ =>{
     let arr = [...Array(liElemMaxNum).keys()];
     $('#box li').each(i =>{
       // 数组的索引
@@ -184,10 +119,10 @@ function three(){
       // 删除数组中的值
       arr.splice(idx,1);
     }); currentStyle = gridLayout;
-  }
+  },
 
   // 螺旋
-  helixLayout = () =>{
+  helixLayout = _ =>{
     let arr = [...Array(liElemMaxNum).keys()];
     $('#box li').each(i =>{
       let idx = randomFrom(0,arr.length-1);
@@ -202,10 +137,10 @@ function three(){
       // 删除数组中的值
       arr.splice(idx,1)
     }); currentStyle = helixLayout;
-  }
+  },
 
   // 球形
-  sphereLayout = () =>{
+  sphereLayout = _ =>{
     let arr = [...Array(liElemMaxNum).keys()];
     $('#box li').each(i =>{
       let idx = randomFrom(0,arr.length-1);
@@ -220,10 +155,10 @@ function three(){
       // 删除数组中的值
       arr.splice(idx,1)
     }); currentStyle = sphereLayout;
-  }
+  },
 
   // 三体
-  threeLayout = () =>{
+  threeLayout = _ =>{
     let arr = [...Array(liElemMaxNum).keys()];
     $('#box li').each(i =>{
       let idx = randomFrom(0,arr.length-1);
@@ -238,10 +173,10 @@ function three(){
       // 删除数组中的值
       arr.splice(idx,1)
     }); currentStyle = threeLayout;
-  }
+  },
 
   // 几何
-  geomeLayout = () =>{
+  geomeLayout = _ =>{
     let arr = [...Array(liElemMaxNum).keys()];
     $('#box li').each(i =>{
       let idx = randomFrom(0,arr.length-1);
@@ -256,10 +191,10 @@ function three(){
       // 删除数组中的值
       arr.splice(idx,1)
     }); currentStyle = geomeLayout;
-  }
+  },
 
   // 曲线
-  curveLayout = () =>{
+  curveLayout = _ =>{
     let arr = [...Array(liElemMaxNum).keys()];
     $('#box li').each(i =>{
       let idx = randomFrom(0,arr.length-1);
@@ -274,10 +209,10 @@ function three(){
       // 删除数组中的值
       arr.splice(idx,1)
     }); currentStyle = curveLayout;
-  }
+  },
 
   // 随机
-  chaoticLayout = () =>{
+  chaoticLayout = _ =>{
     $('#box li').each(function(i){
       // 随机生成li 元素的坐标点
       liElemCoordX = (Math.random()-0.5)*3000;
@@ -289,7 +224,7 @@ function three(){
         "transition": "4s ease-in-out"
       })
     }); currentStyle = chaoticLayout;
-  }
+  },
 
   function main(){
     $([...Array(liElemMaxNum).keys()]).each(i =>{
@@ -380,7 +315,7 @@ function three(){
         })
 
 
-      }).mouseup(() =>{
+      }).mouseup(_ =>{
         // 当鼠标弹起解除移动
         $(document).off('mousemove');
 
@@ -388,7 +323,7 @@ function three(){
         timer && clearInterval(timer);
   
         // 鼠标弹起后有缓动效果
-        timer = setInterval(() => {
+        timer = setInterval(_ => {
           // 缓动差值 
           minusX *= 0.95;
           minusY *= 0.95;
@@ -425,7 +360,7 @@ function three(){
         })
 
         // 设置缓动效果
-        timer = setInterval(() => {
+        timer = setInterval(_ => {
           // 缓动步长
           step *= 0.6;
           liElemDepZ += step*80;
@@ -446,7 +381,71 @@ function three(){
 
   main();
 
-}
+})();
 </script>
-</body>
-</html>
+
+<style>
+li,
+ul,
+div,
+html,
+body{
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body{ height: 100% }
+
+li{ list-style-type: none }
+
+.wrap{
+  height: 100%;
+  overflow: hidden;
+  perspective: 800px;
+}
+
+#box{
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translateZ(-1600px);
+  z-index: 1;
+}
+#box li{
+  top: -80px;
+  left: -60px;
+  width: 120px;
+  height: 160px;
+  position: absolute;
+  text-align: center;
+  line-height: 160px;
+  background-color: rgba(5,100,80,0.2);
+  border: 1px solid rgba(125,255,255,0.25);
+  box-shadow: 0 0 15px rgba(0,255,255,0.5);
+  cursor: pointer;
+}
+#box li span{
+  font-size: 28px;
+  font-weight: blod;
+  text-shadow: 2px 2px 5px black;
+  color: #efebef;
+}
+
+.mask{
+  width: 100%;
+  height: 700px;
+  background: url('../assets/bg_mask.jpg') no-repeat center;
+  background-size: cover;
+  filter: blur(5px);
+}
+.mask > .bg-mask{
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.25;
+}
+</style>
